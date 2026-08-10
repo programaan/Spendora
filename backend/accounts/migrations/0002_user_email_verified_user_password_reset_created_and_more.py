@@ -16,16 +16,19 @@ class Migration(migrations.Migration):
             name="email_verified",
             field=models.BooleanField(default=False),
         ),
+
         migrations.AddField(
             model_name="user",
             name="password_reset_created",
             field=models.DateTimeField(blank=True, null=True),
         ),
+
         migrations.AddField(
             model_name="user",
             name="password_reset_token",
             field=models.UUIDField(blank=True, null=True),
         ),
+
         migrations.AddField(
             model_name="user",
             name="profile_image",
@@ -36,37 +39,76 @@ class Migration(migrations.Migration):
                 verbose_name="profile_image",
             ),
         ),
+
         migrations.AddField(
             model_name="user",
             name="verification_token",
             field=models.UUIDField(blank=True, null=True),
         ),
-        migrations.AlterField(
-            model_name="user",
-            name="email",
-            field=models.EmailField(max_length=254, unique=True),
-        ),
 
-        migrations.RunSQL(
-            sql=[
-                """
-                CREATE UNIQUE INDEX accounts_user_password_reset_token_unique
-                ON accounts_user (password_reset_token)
-                """,
-                """
-                CREATE UNIQUE INDEX accounts_user_verification_token_unique
-                ON accounts_user (verification_token)
-                """,
+        migrations.SeparateDatabaseAndState(
+            database_operations=[
+                migrations.RunSQL(
+                    sql=[
+                        """
+                        CREATE UNIQUE INDEX accounts_user_email_unique
+                        ON accounts_user (email)
+                        """,
+                        """
+                        CREATE UNIQUE INDEX accounts_user_password_reset_token_unique
+                        ON accounts_user (password_reset_token)
+                        """,
+                        """
+                        CREATE UNIQUE INDEX accounts_user_verification_token_unique
+                        ON accounts_user (verification_token)
+                        """,
+                    ],
+                    reverse_sql=[
+                        """
+                        DROP INDEX accounts_user_email_unique
+                        ON accounts_user
+                        """,
+                        """
+                        DROP INDEX accounts_user_password_reset_token_unique
+                        ON accounts_user
+                        """,
+                        """
+                        DROP INDEX accounts_user_verification_token_unique
+                        ON accounts_user
+                        """,
+                    ],
+                ),
             ],
-            reverse_sql=[
-                """
-                DROP INDEX accounts_user_password_reset_token_unique
-                ON accounts_user
-                """,
-                """
-                DROP INDEX accounts_user_verification_token_unique
-                ON accounts_user
-                """,
+
+            state_operations=[
+                migrations.AlterField(
+                    model_name="user",
+                    name="email",
+                    field=models.EmailField(
+                        max_length=254,
+                        unique=True,
+                    ),
+                ),
+
+                migrations.AlterField(
+                    model_name="user",
+                    name="password_reset_token",
+                    field=models.UUIDField(
+                        blank=True,
+                        null=True,
+                        unique=True,
+                    ),
+                ),
+
+                migrations.AlterField(
+                    model_name="user",
+                    name="verification_token",
+                    field=models.UUIDField(
+                        blank=True,
+                        null=True,
+                        unique=True,
+                    ),
+                ),
             ],
         ),
     ]
