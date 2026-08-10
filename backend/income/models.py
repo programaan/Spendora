@@ -1,0 +1,30 @@
+from django.db import models
+from django.conf import settings
+
+
+class Income(models.Model):
+    CATEGORY_CHOICES = [
+        ("Salary", "Salary"),
+        ("Freelance", "Freelance"),
+        ("Investment", "Investment"),
+        ("Business", "Business"),
+        ("Other", "Other"),
+    ]
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="incomes")
+    source = models.CharField(max_length=150)
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
+    amount = models.DecimalField(max_digits=12, decimal_places=2)
+    date = models.DateField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-date", "-created_at"]
+
+        indexes = [
+            models.Index(fields=["user", "-date", "-id"]),
+        ]
+
+    def __str__(self):
+        return f"{self.source} - ₹{self.amount}"
