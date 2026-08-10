@@ -7,7 +7,6 @@ django-cors-headers==4.9.0
 djangorestframework==3.17.1
 djangorestframework_simplejwt==5.5.1
 idna==3.18
-gunicorn==23.0.0
 mailjet-rest==1.7.0
 mysqlclient==2.2.8
 PyJWT==2.13.0
@@ -18,3 +17,4 @@ six==1.17.0
 sqlparse==0.5.5
 tzdata==2026.3
 urllib3==2.7.0
+whitenoise==6.12.0
