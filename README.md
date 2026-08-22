@@ -1,6 +1,7 @@
 # 💰 Spendora — Full Stack Personal Finance Dashboard
 
-<img width="1343" height="683" alt="Spendora" src="https://github.com/user-attachments/assets/5833245a-90e8-41cf-80e2-c26869f7af29" />
+<img width="1343" height="683" alt="Spendora" src="https://github.com/user-attachments/assets/7dd42b97-9d78-49a1-aaca-64403141ba1e" />
+
 
 A modern full-stack personal finance management application designed to help users manage their income, expenses, budgets, financial reports, and personal profile through a responsive dashboard.
 
